@@ -72,8 +72,8 @@ macro(configure_windows_packaging)
   set(REDIST_DIR "${VCINSTALLDIR}/Redist/MSVC/v143")
   message(STATUS "Redist dir: ${REDIST_DIR}")
 
-  set(REDIST_MERGE_MODULE_DIR "${VCINSTALLDIR}/Redist/MSVC/v143/MergeModules")
-  file(GLOB_RECURSE REDIST_MERGE_MODULE_PATHS "${REDIST_MERGE_MODULE_DIR}/*.msm")
+  set(REDIST_MERGE_MODULE_DIR "${VCINSTALLDIR}Redist\\MSVC\\v143\\MergeModules")
+  file(GLOB_RECURSE REDIST_MERGE_MODULE_PATHS "${REDIST_MERGE_MODULE_DIR}\\*.msm")
   message(STATUS "Redist merge module paths: ${REDIST_MERGE_MODULE_PATHS}")
   
   if (NOT REDIST_MERGE_MODULE_PATHS)
