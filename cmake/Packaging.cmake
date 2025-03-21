@@ -63,6 +63,18 @@ macro(configure_windows_packaging)
       "8F57C657-BC87-45E6-840E-41242A93511C"
       CACHE STRING "GUID for 32-bit MSI installer")
 
+  # %VCINSTALLDIR%Redist\MSVC\v143\MergeModules
+  # https://learn.microsoft.com/en-us/cpp/windows/redistributing-components-by-using-merge-modules?view=msvc-170
+  set(VCINSTALLDIR $ENV{VCINSTALLDIR})
+  set(REDIST_MERGE_MODULE_DIR "${VCINSTALLDIR}/Redist/MSVC/v143/MergeModules")
+  file(GLOB_RECURSE REDIST_MERGE_MODULE_PATHS "${REDIST_MERGE_MODULE_DIR}/*.msm")
+  list(JOIN REDIST_MERGE_MODULE_PATHS ";")
+  message(STATUS "Redist merge module paths: ${REDIST_MERGE_MODULE_PATHS}")
+  
+  # use first path
+  list(GET REDIST_MERGE_MODULE_PATHS 0 REDIST_MERGE_MODULE_PATH)
+  message(STATUS "Redist merge module path: ${REDIST_MERGE_MODULE_PATH}")
+
   configure_files(${PROJECT_SOURCE_DIR}/res/dist/wix
                   ${PROJECT_BINARY_DIR}/installer)
 
