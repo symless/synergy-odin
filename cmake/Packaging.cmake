@@ -74,7 +74,7 @@ macro(configure_windows_packaging)
     list(GET REDIST_MERGE_MODULE_PATHS 0 REDIST_MERGE_MODULE_PATH)
     message(STATUS "MSVC merge module found: ${REDIST_MERGE_MODULE_PATH}")
   else()
-    message(WARNING "MSVC merge module not found")
+    message(WARNING "MSVC merge module not found in: ${REDIST_MERGE_MODULE_DIR}")
   endif()
 
   configure_files(${PROJECT_SOURCE_DIR}/res/dist/wix
