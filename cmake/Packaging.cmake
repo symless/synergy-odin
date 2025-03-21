@@ -66,11 +66,19 @@ macro(configure_windows_packaging)
   # %VCINSTALLDIR%Redist\MSVC\v143\MergeModules
   # https://learn.microsoft.com/en-us/cpp/windows/redistributing-components-by-using-merge-modules?view=msvc-170
   set(VCINSTALLDIR $ENV{VCINSTALLDIR})
+  message(STATUS "VCINSTALLDIR: ${VCINSTALLDIR}")
+
+  set(REDIST_DIR "${VCINSTALLDIR}/Redist/MSVC/v143")
+  message(STATUS "Redist dir: ${REDIST_DIR}")
+
   set(REDIST_MERGE_MODULE_DIR "${VCINSTALLDIR}/Redist/MSVC/v143/MergeModules")
   file(GLOB_RECURSE REDIST_MERGE_MODULE_PATHS "${REDIST_MERGE_MODULE_DIR}/*.msm")
-  list(JOIN REDIST_MERGE_MODULE_PATHS ";")
   message(STATUS "Redist merge module paths: ${REDIST_MERGE_MODULE_PATHS}")
   
+  if (NOT REDIST_MERGE_MODULE_PATHS)
+    message(FATAL_ERROR "No merge modules found in ${REDIST_MERGE_MODULE_DIR}")
+  endif
+
   # use first path
   list(GET REDIST_MERGE_MODULE_PATHS 0 REDIST_MERGE_MODULE_PATH)
   message(STATUS "Redist merge module path: ${REDIST_MERGE_MODULE_PATH}")
