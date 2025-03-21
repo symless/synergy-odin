@@ -67,14 +67,22 @@ macro(configure_windows_packaging)
   # This is deprecated and we should switch to MSI when possible.
   # Docs: https://learn.microsoft.com/en-us/cpp/windows/redistributing-components-by-using-merge-modules?view=msvc-170
   set(VCINSTALLDIR $ENV{VCINSTALLDIR})
-  set(REDIST_MERGE_MODULE_DIR "${VCINSTALLDIR}Redist\\MSVC\\v143\\MergeModules")
-  file(GLOB REDIST_MERGE_MODULE_PATHS "${REDIST_MERGE_MODULE_DIR}\\Microsoft_VC143_CRT_x86.msm")
-  message(STATUS "MSVC merge module paths: ${REDIST_MERGE_MODULE_PATHS}")
+  message(STATUS "VCINSTALLDIR: ${VCINSTALLDIR}")
+
+  set(REDIST_DIR "${VCINSTALLDIR}/Redist/MSVC/v143")
+  message(STATUS "Redist dir: ${REDIST_DIR}")
+
+  set(REDIST_MERGE_MODULE_DIR "${VCINSTALLDIR}/Redist/MSVC/v143/MergeModules")
+  file(GLOB_RECURSE REDIST_MERGE_MODULE_PATHS "${REDIST_MERGE_MODULE_DIR}/*.msm")
+  message(STATUS "Redist merge module paths: ${REDIST_MERGE_MODULE_PATHS}")
+  
   if (NOT REDIST_MERGE_MODULE_PATHS)
-    message(FATAL_ERROR "MSVC merge module not found in dir: ${REDIST_MERGE_MODULE_DIR}")
+    message(FATAL_ERROR "No merge modules found in ${REDIST_MERGE_MODULE_DIR}")
   endif()
+
+  # use first path
   list(GET REDIST_MERGE_MODULE_PATHS 0 REDIST_MERGE_MODULE_PATH)
-  message(STATUS "MSVC merge module path: ${REDIST_MERGE_MODULE_PATH}")
+  message(STATUS "Redist merge module path: ${REDIST_MERGE_MODULE_PATH}")
 
   configure_files(${PROJECT_SOURCE_DIR}/res/dist/wix
                   ${PROJECT_BINARY_DIR}/installer)
