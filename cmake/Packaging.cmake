@@ -77,7 +77,7 @@ macro(configure_windows_packaging)
   
   if (NOT REDIST_MERGE_MODULE_PATHS)
     message(FATAL_ERROR "No merge modules found in ${REDIST_MERGE_MODULE_DIR}")
-  endif
+  endif()
 
   # use first path
   list(GET REDIST_MERGE_MODULE_PATHS 0 REDIST_MERGE_MODULE_PATH)
